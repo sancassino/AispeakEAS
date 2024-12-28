@@ -1,9 +1,9 @@
 import React, {
-  useState,
-  useRef,
-  useMemo,
-  useEffect,
-  useCallback,
+    useState,
+    useRef,
+    useMemo,
+    useEffect,
+    useCallback,
 } from 'react';
 import { AppState } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -13,16 +13,16 @@ import * as ImagePicker from 'expo-image-picker';
 import { createClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  PanResponder,
-  TextInput,
-  ScrollView,
-  TouchableWithoutFeedback,
-  PixelRatio,
+    StyleSheet,
+    View,
+    Image,
+    Text,
+    TouchableOpacity,
+    PanResponder,
+    TextInput,
+    ScrollView,
+    TouchableWithoutFeedback,
+    PixelRatio,
 } from 'react-native';
 import { Linking } from 'react-native';
 import { Platform, Keyboard, KeyboardAvoidingView } from 'react-native';
@@ -43,87 +43,91 @@ import { Audio } from 'expo-av';
 import SoundIcon from './SoundIcon'; // Adjust the path as necessary
 import CustomDialog from './CustomDialog'; // Adjust the path as necessary
 import Purchases from 'react-native-purchases';
+
 export default function App() {
-  const [isTrialActive, setIsTrialActive] = useState(false); // Ücretsiz deneme durumu
+    const [isTrialActive, setIsTrialActive] = useState(false); // Ücretsiz deneme durumu
 
-  const [isMicEnabled, setMicEnabled] = React.useState(true);
-  const [isMicEnabled2, setMicEnabled2] = React.useState(false);
+    const [isMicEnabled, setMicEnabled] = React.useState(true);
+    const [isMicEnabled2, setMicEnabled2] = React.useState(false);
 
- 
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [page, setPage] = useState(1);
-  const handleSetPage = (newPage) => {
-    console.log('Changing page to:', newPage); // Debugging info
-    setPage(newPage);
-  };
-  const [showImage5] = useState(true);
-  const [showImage, setShowImage] = useState(false);
-  const [, setShowImage12] = useState(false);
-  const [showText, setShowText] = useState(false);
-  const [, setShowText12] = useState(false);
-  const [showText2, setShowText2] = useState(false);
-  const [showText73, setShowText73] = useState(false);
-  const [showFinger, setShowFinger] = useState(false);
-  const [, setSelectedPlan] = React.useState('');
-  const [, setShowBasicInfo] = useState(false);
-  const [, setShowProInfo] = useState(false);
-  const [currentPlan, setCurrentPlan] = useState('Básico'); // User's current plan
-  const [currentBillingCycle, setCurrentBillingCycle] = useState('Anual'); // User's current billing cycle
-  const [selectedPlan, setSelectedPlan1] = useState(currentPlan);
-  const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const [selectedBillingCycle, setSelectedBillingCycle] =
-    useState(currentBillingCycle);
-  const planDetails = {
-    Básico: {
-      Mensual: {
-        price: '€7.99/',
-        cycle: 'mes',
-      },
-      Anual: {
-        price: '€69.99/',
-        cycle: 'año',
-      },
-      features: [
-        'Texto, habla y escucha. ¡Hazlo todo!',
-        'Chatea con Aispeak a cualquier nivel',
-        '10 chats cada día',
-      ],
-    },
-    Pro: {
-      Mensual: {
-        price: '€11.99/',
-        cycle: 'mes',
-      },
-      Anual: {
-        price: '€94.99/',
-        cycle: 'año',
-      },
-      features: [
-        'Texto, habla y escucha. ¡Hazlo todo!',
-        'Chatea con Aispeak a cualquier nivel',
-        'Chats ilimitados',
-      ],
-    },
-  };
+    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+    const [page, setPage] = useState(1);
+    const handleSetPage = (newPage) => {
+        console.log('Changing page to:', newPage); // Debugging info
+        setPage(newPage);
+    };
+    const [showImage5] = useState(true);
+    const [showImage, setShowImage] = useState(false);
+    const [, setShowImage12] = useState(false);
+    const [showText, setShowText] = useState(false);
+    const [, setShowText12] = useState(false);
+    const [showText2, setShowText2] = useState(false);
+    const [showText73, setShowText73] = useState(false);
+    const [showFinger, setShowFinger] = useState(false);
+    const [, setSelectedPlan] = React.useState('');
+    const [, setShowBasicInfo] = useState(false);
+    const [, setShowProInfo] = useState(false);
+    const [currentPlan, setCurrentPlan] = useState('Básico'); // User's current plan
+    const [currentBillingCycle, setCurrentBillingCycle] = useState('Anual'); // User's current billing cycle
+    const [selectedPlan, setSelectedPlan1] = useState(currentPlan);
+    const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const [alreadySelectedPlan, setAlreadySelectedPlan] = useState(false);
-  onPress = () => {
-    if (selectedBillingCycle) {
-      setCurrentPlan(selectedPlan);
-      setCurrentBillingCycle(selectedBillingCycle);
-      // If currentPlan was 'Pro', do your Pro-specific logic here...
+    const [selectedBillingCycle, setSelectedBillingCycle] =
+        useState(currentBillingCycle);
+    const planDetails = {
+        Básico: {
+            Mensual: {
+                price: '€7.99/',
+                cycle: 'mes',
+            },
+            Anual: {
+                price: '€69.99/',
+                cycle: 'año',
+            },
+            features: [
+                'Texto, habla y escucha. ¡Hazlo todo!',
+                'Chatea con Aispeak a cualquier nivel',
+                '10 chats cada día',
+            ],
+        },
+        Pro: {
+            Mensual: {
+                price: '€11.99/',
+                cycle: 'mes',
+            },
+            Anual: {
+                price: '€94.99/',
+                cycle: 'año',
+            },
+            features: [
+                'Texto, habla y escucha. ¡Hazlo todo!',
+                'Chatea con Aispeak a cualquier nivel',
+                'Chats ilimitados',
+            ],
+        },
+    };
 
-      // Now mark that a plan has been selected
-      setAlreadySelectedPlan(true);
+    const [alreadySelectedPlan, setAlreadySelectedPlan] = useState(false);
+    onPress = () => {
+        if (selectedBillingCycle) {
+            setCurrentPlan(selectedPlan);
+            setCurrentBillingCycle(selectedBillingCycle);
+            // If currentPlan was 'Pro', do your Pro-specific logic here...
 
-      setPage(4); // proceed as per your logic
-    } else {
-      Alert.alert('Por favor, selecciona un ciclo de facturación');
+            // Now mark that a plan has been selected
+            setAlreadySelectedPlan(true);
+
+            setPage(4); // proceed as per your logic
+        } else {
+            Alert.alert('Por favor, selecciona un ciclo de facturación');
+        }
     }
-  }
 
-useEffect(() => {
+
+
+    // Function to fetch subscriptions (following docs pattern)
+   useEffect(() => {
     const initializePurchases = async () => {
         try {
              Purchases.configure({
@@ -211,168 +215,132 @@ const inAppBuySubscription = async (selectedPlan) => {
     };
   }, []);
 
-  const [, setRectangle1] = React.useState(styles.rectangle);
-  const [, setRectangle2] = React.useState(styles.rectangle);
-  const [, setRectangle3] = React.useState(styles.rectangle);
-  useEffect(() => {
-    if (page === 4000) {
-      handlePress2(setRectangle2, 'Full');
-    }
-  }, [page, handlePress2]);
+    // Optional: Add listener for purchase updates
 
-   const [testerUsed, setTesterUsed] = useState(false);
-const [testerEndTime, setTesterEndTime] = useState(null);
 
-// When the app is opened or navigated to this page, check:
-useEffect(() => {
-  const checkTesterStatus = async () => {
-    try {
-      const used = await AsyncStorage.getItem('testerUsed');
-      const endTime = await AsyncStorage.getItem('testerEndTime');
-
-      const now = new Date().getTime();
-      if (used === 'true' && endTime) {
-        const end = parseInt(endTime, 10);
-        if (end <= now) {
-          // Time expired, redirect again to 4000
-          setTesterUsed(true);
-          setPage(4000); 
-        } else {
-          // If time has not expired, tester is active.
-          setTesterUsed(true);
-          setTesterEndTime(end);
+    const [, setRectangle1] = React.useState(styles.rectangle);
+    const [, setRectangle2] = React.useState(styles.rectangle);
+    const [, setRectangle3] = React.useState(styles.rectangle);
+    useEffect(() => {
+        if (page === 4000) {
+            handlePress2(setRectangle2, 'Full');
         }
-      } else {
-        // Never used or not in storage
-        setTesterUsed(false);
-      }
-    } catch (e) {
-      console.log('Error reading tester status', e);
-    }
-  };
+    }, [page, handlePress2]);
 
-  checkTesterStatus();
-}, [page]); // You may want to recheck when 'page' changes.
+    const wasSubscribedRef = useRef(null);
 
-// This function runs when the 2-week button is pressed.
-const handleTesterButtonPress = async () => {
-  try {
-    // From now plus 14 days
-    const now = new Date().getTime();
-    const twoWeeksLater = now + (14 * 24 * 60 * 60 * 1000);
-
-    // Give the user 2 weeks of Pro features
-    setCurrentPlan('Pro');
-    setCurrentBillingCycle('Mensual'); // Example: monthly Pro
-    await AsyncStorage.setItem('testerUsed', 'true');
-    await AsyncStorage.setItem('testerEndTime', twoWeeksLater.toString());
-
-    setTesterUsed(true);
-    setTesterEndTime(twoWeeksLater);
-
-    // After selecting the plan, redirect to page=4
-    setPage(4);
-  } catch (e) {
-    console.log('Error setting tester data', e);
-  }
-};
-
-  
-  const wasSubscribedRef = useRef(null);
-
-  useEffect(() => {
-    // Fetch initial subscription status
-    const fetchCustomerInfo = async () => {
-      try {
-        const info = await Purchases.getCustomerInfo();
-        const isSubscribed = Object.keys(info.entitlements.active).length > 0;
-        wasSubscribedRef.current = isSubscribed;
-      } catch (error) {
-        console.error('Error fetching customer info:', error);
-      }
+    const [testerUsed, setTesterUsed] = useState(false);
+    const [testerEndTime, setTesterEndTime] = useState(null);
+    // When the app is opened or navigated to this page, check:
+    useEffect(() => {
+        const checkTesterStatus = async () => {
+            try {
+                const used = await AsyncStorage.getItem('testerUsed');
+                const endTime = await AsyncStorage.getItem('testerEndTime');
+                const now = new Date().getTime();
+                if (used === 'true' && endTime) {
+                    const end = parseInt(endTime, 10);
+                    if (end <= now) {
+                        // Time expired, redirect again to 4000
+                        setTesterUsed(true);
+                        setPage(4000);
+                    } else {
+                        // If time has not expired, tester is active.
+                        setTesterUsed(true);
+                        setTesterEndTime(end);
+                    }
+                } else {
+                    // Never used or not in storage
+                    setTesterUsed(false);
+                }
+            } catch (e) {
+                console.log('Error reading tester status', e);
+            }
+        };
+        checkTesterStatus();
+    }, [page]); // You may want to recheck when 'page' changes.
+    // This function runs when the 2-week button is pressed.
+    const handleTesterButtonPress = async () => {
+        try {
+            // From now plus 14 days
+            const now = new Date().getTime();
+            const twoWeeksLater = now + (14 * 24 * 60 * 60 * 1000);
+            // Give the user 2 weeks of Pro features
+            setCurrentPlan('Pro');
+            setCurrentBillingCycle('Mensual'); // Example: monthly Pro
+            await AsyncStorage.setItem('testerUsed', 'true');
+            await AsyncStorage.setItem('testerEndTime', twoWeeksLater.toString());
+            setTesterUsed(true);
+            setTesterEndTime(twoWeeksLater);
+            // After selecting the plan, redirect to page=4
+            setPage(4);
+        } catch (e) {
+            console.log('Error setting tester data', e);
+        }
     };
 
-    fetchCustomerInfo();
 
-    // Listen for subscription status changes
-    const purchaseListener = Purchases.addCustomerInfoUpdateListener((info) => {
-      console.log('Customer info updated:', info);
-      const isSubscribed = Object.keys(info.entitlements.active).length > 0;
+    const [, setShowImages] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isregistered, setisregistered] = useState(false);
+    const [isPopupVisible, setPopupVisible] = useState(false);
+    const handlePress2 = useCallback(
+        (setRectangle, plan) => {
+            // Reset all rectangles to the original style
+            setRectangle1(styles.rectangle);
+            setRectangle2(styles.rectangle);
+            setRectangle3(styles.rectangle);
 
-      if (wasSubscribedRef.current && !isSubscribed) {
-        // User canceled their subscription
-        setPage(4002);
-      }
+            // Set the clicked rectangle to the rectangle2 style
+            setRectangle(styles.rectangle2);
 
-      wasSubscribedRef.current = isSubscribed;
-    });
+            // Set the selected plan
+            setSelectedPlan(plan);
 
-    return () => {
-      purchaseListener?.remove();
+            // If the 'Full' plan is selected, start the animation after 10 seconds
+            if (plan === 'Full') {
+                setTimeout(() => {
+                    startAnimationrectangle();
+                }, 5000);
+            }
+        },
+        [
+            setRectangle1,
+            setRectangle2,
+            setRectangle3,
+            setSelectedPlan,
+            startAnimationrectangle,
+        ]
+    );
+
+    const [chatKey, setChatKey] = useState(1);
+    const [chatHistories, setChatHistories] = useState({});
+
+    const addMessageToChatHistory = (message) => {
+        setChatHistories((prevHistories) => ({
+            ...prevHistories,
+            [chatKey]: [...(prevHistories[chatKey] || []), message],
+        }));
+        setChatHistory((prevChatHistory) => [...prevChatHistory, message]);
     };
-  }, []);
 
-  const [, setShowImages] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isregistered, setisregistered] = useState(false);
-  const [isPopupVisible, setPopupVisible] = useState(false);
-  const handlePress2 = useCallback(
-    (setRectangle, plan) => {
-      // Reset all rectangles to the original style
-      setRectangle1(styles.rectangle);
-      setRectangle2(styles.rectangle);
-      setRectangle3(styles.rectangle);
+    const [chatHistory, setChatHistory] = useState([]);
+    const [avatarKey, setAvatarKey] = useState('avatar1');
+    const [avatarKey2, setAvatarKey2] = useState('avatar2');
+    const [avatarKey3, setAvatarKey3] = useState('avatar3');
+    const [avatarKey4, setAvatarKey4] = useState('avatar4');
+    const [avatarKey5, setAvatarKey5] = useState('avatar5');
 
-      // Set the clicked rectangle to the rectangle2 style
-      setRectangle(styles.rectangle2);
+    const avatarImages = useMemo(
+        () => ({
+            avatar1: require('./assets/images/basiccircle4.png'),
+            avatar2: require('./assets/images/hatcircle4.png'),
+            avatar3: require('./assets/images/crowncircle4.png'),
+        }),
+        []
+    );
 
-      // Set the selected plan
-      setSelectedPlan(plan);
-
-      // If the 'Full' plan is selected, start the animation after 10 seconds
-      if (plan === 'Full') {
-        setTimeout(() => {
-          startAnimationrectangle();
-        }, 5000);
-      }
-    },
-    [
-      setRectangle1,
-      setRectangle2,
-      setRectangle3,
-      setSelectedPlan,
-      startAnimationrectangle,
-    ]
-  );
-
-  const [chatKey, setChatKey] = useState(1);
-  const [chatHistories, setChatHistories] = useState({});
-
-  const addMessageToChatHistory = (message) => {
-    setChatHistories((prevHistories) => ({
-      ...prevHistories,
-      [chatKey]: [...(prevHistories[chatKey] || []), message],
-    }));
-    setChatHistory((prevChatHistory) => [...prevChatHistory, message]);
-  };
-
-  const [chatHistory, setChatHistory] = useState([]);
-  const [avatarKey, setAvatarKey] = useState('avatar1');
-  const [avatarKey2, setAvatarKey2] = useState('avatar2');
-  const [avatarKey3, setAvatarKey3] = useState('avatar3');
-  const [avatarKey4, setAvatarKey4] = useState('avatar4');
-  const [avatarKey5, setAvatarKey5] = useState('avatar5');
-
-  const avatarImages = useMemo(
-    () => ({
-      avatar1: require('./assets/images/basiccircle4.png'),
-      avatar2: require('./assets/images/hatcircle4.png'),
-      avatar3: require('./assets/images/crowncircle4.png'),
-    }),
-    []
-  );
-
-  const [isEmailEditable, setIsEmailEditable] = useState(false);
+    const [isEmailEditable, setIsEmailEditable] = useState(false);
     const [isNameEditable, setIsNameEditable] = useState(false);
     // other state variables
 
@@ -771,29 +739,29 @@ const handleTesterButtonPress = async () => {
                 .from('users')
                 .select(
                     `
-            currentCount,
-            visitedPage1,
-            currentCountPrincipiante,
-            currentCountIntermedio,
-            currentCountAvanzado,
-            isMicEnabled,
-            currentChatKey,
-            isMicEnabled2,
-            selectedOption,
-            email,
-            name,
-            firstVisit,
-            firstTimeModal,
-            chatHistory,
-            questionMarkShown,
-            trialChatCount,
-            isTimeoutActive,
-            currentLevel,
-            chatKey,
-            chats
-                    currentPlan,            // Ensure currentPlan is fetched
-            currentBillingCycle 
-          `
+              currentCount,
+              visitedPage1,
+              currentCountPrincipiante,
+              currentCountIntermedio,
+              currentCountAvanzado,
+              isMicEnabled,
+              currentChatKey,
+              isMicEnabled2,
+              selectedOption,
+              email,
+              name,
+              firstVisit,
+              firstTimeModal,
+              chatHistory,
+              questionMarkShown,
+              trialChatCount,
+              isTimeoutActive,
+              currentLevel,
+              chatKey,
+              chats
+                      currentPlan,            // Ensure currentPlan is fetched
+              currentBillingCycle 
+            `
                 )
                 .eq('auth_id', user.id);
 
@@ -916,27 +884,27 @@ const handleTesterButtonPress = async () => {
                 .from('users')
                 .select(
                     `
-          currentCount,
-          visitedPage1,
-          currentCountPrincipiante,
-          currentCountIntermedio,
-          currentCountAvanzado,
-          isMicEnabled,
-          currentChatKey,
-          isMicEnabled2,
-          selectedOption,
-          email,
-          name,
-          firstVisit,
-          firstTimeModal,
-          chatHistory,
-          questionMarkShown,
-          trialChatCount,
-          isTimeoutActive,
-          currentLevel,
-          chatKey,
-          chats
-        `
+            currentCount,
+            visitedPage1,
+            currentCountPrincipiante,
+            currentCountIntermedio,
+            currentCountAvanzado,
+            isMicEnabled,
+            currentChatKey,
+            isMicEnabled2,
+            selectedOption,
+            email,
+            name,
+            firstVisit,
+            firstTimeModal,
+            chatHistory,
+            questionMarkShown,
+            trialChatCount,
+            isTimeoutActive,
+            currentLevel,
+            chatKey,
+            chats
+          `
                 )
                 .eq('auth_id', user.id);
 
@@ -974,39 +942,38 @@ const handleTesterButtonPress = async () => {
             console.error('User object is undefined after log in');
         }
     };
-   useEffect(() => {
-    const handleAppStateChange = (nextAppState) => {
-        if (nextAppState === 'active' && (page === 1 || page === 7)) {
-            AsyncStorage.getItem('timeoutStartTimestamp')
-                .then((value) => {
-                    if (value !== null) {
-                        const timeoutStartTimestamp = JSON.parse(value);
-                        const now = Date.now();
-                        const timeElapsed = now - timeoutStartTimestamp;
-                        const twelveHoursInMs = 12 * 60 * 60 * 1000;
-                        const newRemainingTime = twelveHoursInMs - timeElapsed;
+    useEffect(() => {
+        const handleAppStateChange = (nextAppState) => {
+            if (nextAppState === 'active' && (page === 1 || page === 7)) {
+                AsyncStorage.getItem('timeoutStartTimestamp')
+                    .then((value) => {
+                        if (value !== null) {
+                            const timeoutStartTimestamp = JSON.parse(value);
+                            const now = Date.now();
+                            const timeElapsed = now - timeoutStartTimestamp;
+                            const twelveHoursInMs = 12 * 60 * 60 * 1000;
+                            const newRemainingTime = twelveHoursInMs - timeElapsed;
 
-                        console.log('timeoutStartTimestamp:', timeoutStartTimestamp);
-                        console.log('Current time:', now);
-                        console.log('Time elapsed:', timeElapsed);
-                        console.log('New remaining time:', newRemainingTime);
+                            console.log('timeoutStartTimestamp:', timeoutStartTimestamp);
+                            console.log('Current time:', now);
+                            console.log('Time elapsed:', timeElapsed);
+                            console.log('New remaining time:', newRemainingTime);
 
-                        if (newRemainingTime > 0 && currentPlan !== 'Pro') {
-                            setRemainingTime(newRemainingTime);
-                            setIsTimeoutActive(true);
-                        } else {
-                            setRemainingTime(twelveHoursInMs); // Reset remaining time
-                            setIsTimeoutActive(false);
-                            AsyncStorage.removeItem('timeoutStartTimestamp'); // Clear outdated timeout
+                            if (newRemainingTime > 0 && currentPlan !== 'Pro') {
+                                setRemainingTime(newRemainingTime);
+                                setIsTimeoutActive(true);
+                            } else {
+                                setRemainingTime(twelveHoursInMs); // Reset remaining time
+                                setIsTimeoutActive(false);
+                                AsyncStorage.removeItem('timeoutStartTimestamp'); // Clear outdated timeout
+                            }
                         }
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching timeoutStartTimestamp:', error);
-                });
-        }
-    };
-
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching timeoutStartTimestamp:', error);
+                    });
+            }
+        };
         const subscription = AppState.addEventListener(
             'change',
             handleAppStateChange
@@ -1035,11 +1002,11 @@ const handleTesterButtonPress = async () => {
                     setCurrentCountIntermedio(parseInt(value, 10));
                 }
             });
-  AsyncStorage.getItem('alreadySelectedPlan').then((value) => {
-            if (value !== null) {
-                setAlreadySelectedPlan(JSON.parse(value));
-            }
-        });
+            AsyncStorage.getItem('alreadySelectedPlan').then((value) => {
+                if (value !== null) {
+                    setAlreadySelectedPlan(JSON.parse(value));
+                }
+            });
             AsyncStorage.getItem('currentCountAvanzado').then((value) => {
                 if (value !== null) {
                     setCurrentCountAvanzado(parseInt(value, 10));
@@ -1088,17 +1055,17 @@ const handleTesterButtonPress = async () => {
                     isFirstChat = JSON.parse(value);
                 }
             });
-              AsyncStorage.getItem('currentPlan').then((value) => {
-    if (value !== null) {
-      setCurrentPlan(JSON.parse(value));
-    }
-  });
+            AsyncStorage.getItem('currentPlan').then((value) => {
+                if (value !== null) {
+                    setCurrentPlan(JSON.parse(value));
+                }
+            });
 
-  AsyncStorage.getItem('currentBillingCycle').then((value) => {
-    if (value !== null) {
-      setCurrentBillingCycle(JSON.parse(value));
-    }
-  });
+            AsyncStorage.getItem('currentBillingCycle').then((value) => {
+                if (value !== null) {
+                    setCurrentBillingCycle(JSON.parse(value));
+                }
+            });
             AsyncStorage.getItem('isFirstsentence2').then((value) => {
                 if (value !== null) {
                     isFirstsentence2 = JSON.parse(value);
@@ -1324,27 +1291,28 @@ const handleTesterButtonPress = async () => {
                 }
             });
 
-             AsyncStorage.getItem('timeoutStartTimestamp').then((value) => {
-    if (value !== null) {
-        const timeoutStartTimestamp = JSON.parse(value);
-        const now = Date.now();
-        const timeElapsed = now - timeoutStartTimestamp;
-        const newRemainingTime = 43200000 - timeElapsed; // 12 hours in milliseconds
-        
-        console.log('timeoutStartTimestamp:', timeoutStartTimestamp);
-        console.log('Current time:', now);
-        console.log('Time elapsed:', timeElapsed);
-        console.log('New remaining time:', newRemainingTime);
-        
-        if (newRemainingTime > 0 && currentPlan !== 'Pro') {
-            setRemainingTime(newRemainingTime);
-            setIsTimeoutActive(true);
-        } else {
-            setRemainingTime(43200000); // Reset remaining time
-            setIsTimeoutActive(false);
-        }
-    }
-});
+
+            AsyncStorage.getItem('timeoutStartTimestamp').then((value) => {
+                if (value !== null) {
+                    const timeoutStartTimestamp = JSON.parse(value);
+                    const now = Date.now();
+                    const timeElapsed = now - timeoutStartTimestamp;
+                    const newRemainingTime = 43200000 - timeElapsed; // 12 hours in milliseconds
+
+                    console.log('timeoutStartTimestamp:', timeoutStartTimestamp);
+                    console.log('Current time:', now);
+                    console.log('Time elapsed:', timeElapsed);
+                    console.log('New remaining time:', newRemainingTime);
+
+                    if (newRemainingTime > 0 && currentPlan !== 'Pro') {
+                        setRemainingTime(newRemainingTime);
+                        setIsTimeoutActive(true);
+                    } else {
+                        setRemainingTime(43200000); // Reset remaining time
+                        setIsTimeoutActive(false);
+                    }
+                }
+            });
 
 
             AsyncStorage.getItem('currentLevel').then((value) => {
@@ -1386,8 +1354,8 @@ const handleTesterButtonPress = async () => {
             AsyncStorage.setItem('chatCountLevel9', chatCountLevel9.toString());
             AsyncStorage.setItem('chatCountLevel10', chatCountLevel10.toString());
             AsyncStorage.setItem('avatarKey', avatarKey);
-              AsyncStorage.setItem('currentPlan', JSON.stringify(currentPlan));
-  AsyncStorage.setItem('currentBillingCycle', JSON.stringify(currentBillingCycle));
+            AsyncStorage.setItem('currentPlan', JSON.stringify(currentPlan));
+            AsyncStorage.setItem('currentBillingCycle', JSON.stringify(currentBillingCycle));
 
             AsyncStorage.setItem('avatarKey2', avatarKey2);
             AsyncStorage.setItem('avatarKey3', avatarKey3);
@@ -1498,6 +1466,10 @@ const handleTesterButtonPress = async () => {
         remainingTime,
         isLoggedIn,
     ]);
+
+    const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+
 
     Dimensions.get('window');
 
@@ -1674,7 +1646,7 @@ const handleTesterButtonPress = async () => {
             );
             Notifications.removeNotificationSubscription(responseListener.current);
         };
-    }, [handleStartNewChat, selectedOption]);
+    }, [handleStartNewChat, selectedOption, isTimeoutActive]);
 
     async function schedulePushNotification() {
         await setNotificationCategory();
@@ -2163,8 +2135,7 @@ const handleTesterButtonPress = async () => {
         setNotificationsEnabled(true);
     };
 
-    const screenWidth = Dimensions.get('window').width;
-    const screenHeight = Dimensions.get('window').height;
+
 
     // Calculate the position of the white field relative to the screen size
 
@@ -2302,10 +2273,16 @@ const handleTesterButtonPress = async () => {
     const [remainingTime, setRemainingTime] = useState(43200000); // 12 hours in milliseconds
     const timeoutRef = useRef(null);
     const intervalRef = useRef(null);
-
     const handleTimeoutAndInterval = useCallback(() => {
         console.log('isTimeoutActive:', isTimeoutActive);
 
+        // Check if plan is Pro using state variable
+        if (currentPlan === 'Pro') {
+            setIsTimeoutActive(false);
+            return; // Exit early if Pro plan
+        }
+
+        // Only proceed with timeout logic if not Pro plan
         if (isTimeoutActive) {
             // Set a timeout to reset isTimeoutActive after the remaining time
             timeoutRef.current = setTimeout(() => {
@@ -2328,8 +2305,7 @@ const handleTesterButtonPress = async () => {
                 intervalRef.current = null;
             }
         }
-    }, [isTimeoutActive, remainingTime]);
-
+    }, [isTimeoutActive, remainingTime, currentPlan]);
     useEffect(() => {
         handleTimeoutAndInterval();
 
@@ -2478,9 +2454,9 @@ const handleTesterButtonPress = async () => {
         }
     }, [page, name]);
     const [visitedPage1, setVisitedPage1] = useState(false);
-   useEffect(() => {
+    useEffect(() => {
         if (page === 1) {
-          
+
             const timer = setTimeout(() => {
                 setPage(visitedPage1 ? 7 : 1800);
             }, 2000);
@@ -2488,7 +2464,6 @@ const handleTesterButtonPress = async () => {
             return () => clearTimeout(timer);
         }
     }, [page, visitedPage1, trialChatCount, chatCount, firstChatTimestamp]);
-
 
     if (page === 1) {
         return (
@@ -2804,329 +2779,359 @@ const handleTesterButtonPress = async () => {
                 </Text>
             </View>
         );
-    }  else if (page === 4000) {
-    const selectedPlanDetails = planDetails[selectedPlan];
-    const dynamicMarginTop = -0.1 * screenHeight;
+    } else if (page === 4000) {
+        const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+        const ratio = screenHeight / screenWidth;
+        const scaleFactor = ratio < 1.9 ? 0.9 : 1.0;
 
-    const smallBoxTexts = {
-      Básico: {
-        Mensual: 'Solo 3 cafés',
-        Anual: 'Ahorra £26',
-      },
-      Pro: {
-        Mensual: 'Solo 5 cafés',
-        Anual: 'Ahorra £26',
-      },
-    };
+        const selectedPlanDetails = planDetails[selectedPlan];
+        const dynamicMarginTop = -0.1 * screenHeight;
 
-    const isPlanChanged = selectedPlan !== currentPlan || selectedBillingCycle !== currentBillingCycle;
-    const buttonText = isPlanChanged
-      ? 'Cambiar mi plan actual  >'
-      : 'Conservar mi plan actual  >';
+        const smallBoxTexts = {
+            Básico: {
+                Mensual: 'Solo 3 cafés',
+                Anual: 'Ahorra £26',
+            },
+            Pro: {
+                Mensual: 'Solo 5 cafés',
+                Anual: 'Ahorra £26',
+            },
+        };
 
-    if (!alreadySelectedPlan) {
-      return (
-        <View style={{ flex: 1.25 }}>
-          {/* Activity Indicator Overlay */}
-          {isSubscribing && (
-            <View 
-              style={{ 
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                right: 0, 
-                bottom: 0, 
-                justifyContent: 'center', 
-                alignItems: 'center', 
-                backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-                zIndex: 1000 
-              }}
-            >
-              <ActivityIndicator size="large" color="#ffffff" />
-              <Text style={{ color: 'white', marginTop: 10 }}>
-                Procesando tu suscripción...
-              </Text>
-            </View>
-          )}
+        const isPlanChanged = selectedPlan !== currentPlan || selectedBillingCycle !== currentBillingCycle;
+        const buttonText = isPlanChanged
+            ? 'Cambiar mi plan actual  >'
+            : 'Conservar mi plan actual  >';
 
-          {/* Top Section */}
-          <View style={{ flex: 1, backgroundColor: '#FEBA01', paddingTop: 55 }}>
-            {/* Container for Logo and Basic Layout */}
-            <View style={{ position: 'relative', alignItems: 'center' }}>
-              {/* Logo */}
-              <Image
-                source={require('./assets/images/dadwblue.png')}
-                style={{
-                  width: 200,
-                  height: 56,
-                  resizeMode: 'contain',
-                }}
-              />
-            </View>
+        if (!alreadySelectedPlan) {
 
-            <View style={{ flex: 1, alignItems: 'center', paddingTop: 45 }}>
-              <Text
-                style={{
-                  fontSize: 24,
-                  fontWeight: 'bold',
-                  color: textColor,
-                  marginTop: 20,
-                  textAlign: 'center',
-                }}>
-                ¿Cuál prefieres?
-              </Text>
-            </View>
+            return (
+                <View style={{ flex: 1 }}>
 
-            {/* Optional animated image FIRST */}
-            {makeUserWant && (
-              <Animated.View
-                style={{
-                  opacity: popAnim,
-                  transform: [{ scale: popAnim }],
-                  position: 'absolute',
-                  marginTop: 20,
-                  right: 0,
-                }}>
-                <Image
-                  source={require('./assets/images/capiandchat.png')}
-                  style={{ width: 350, height: 350 }}
-                />
-              </Animated.View>
-            )}
+                    <View style={{ flex: 1.25 }}>
+                        {/* Activity Indicator Overlay */}
+                        {isSubscribing && (
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                    zIndex: 1000
+                                }}
+                            >
+                                <ActivityIndicator size="large" color="#ffffff" />
+                                <Text style={{ color: 'white', marginTop: 10 * scaleFactor, transform: [{ scale: scaleFactor }] }}>
+                                    Procesando tu suscripción...
+                                </Text>
+                            </View>
+                        )}
 
-            {/* Cancel Button AFTER the image */}
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(
-                  'Cancelar tu plan de suscripción',
-                  "Puedes cancelar la prueba gratuita antes de que terminen los 7 días.",
-                  [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
-                );
-              }}
-              style={{
-                position: 'absolute',
-                right: 20,
-                top: 75,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Image
-                source={require('./assets/images/whiteex.png')}
-                style={{
-                  width: 15,
-                  height: 15,
-                  resizeMode: 'contain',
-                  marginRight: 5,
-                }}
-              />
-              <Text style={{ color: 'white', fontSize: 9 }}>Cancelar</Text>
-            </TouchableOpacity>
-            {!testerUsed && (
-               <TouchableOpacity
-    onPress={handleTesterButtonPress}
-    style={{
-        position: 'absolute',
-        left: 20,
-        top: 75,
-        flexDirection: 'row',
-        alignItems: 'center',
-    }}
->
-    <Text style={{ color: 'white', fontSize: 16 }}>Testing</Text>
-</TouchableOpacity>
- )}
-          </View>
+                        {/* Top Section */}
+                        <View style={{ flex: 1, backgroundColor: '#FEBA01', paddingTop: 55 * scaleFactor }}>
+                            {/* Container for Logo and Basic Layout */}
+                            <View style={{ position: 'relative', alignItems: 'center', transform: [{ scale: scaleFactor }] }}>
+                                {/* Logo */}
+                                <Image
+                                    source={require('./assets/images/dadwblue.png')}
+                                    style={{
+                                        width: 200,
+                                        height: 56,
+                                        resizeMode: 'contain',
+                                        transform: [{ scale: scaleFactor }]
+                                    }}
+                                />
+                            </View>
 
-          {/* Bottom Section */}
-          <View
-            style={{
-              flex: 1.75,
-              backgroundColor: '#017CFE',
-              padding: 20,
-              justifyContent: 'center',
-               position: 'relative'
-            }}>
-            {/* Plan Toggle */}
-            <View
-    style={{
-      position: 'absolute',
-      top: -30,  // Adjust this value to fine-tune the vertical position
-      alignSelf: 'center',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      borderRadius: 25,
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      zIndex: 1,
-    }}>
-              <TouchableOpacity
-                onPress={() => setSelectedPlan1('Básico')}
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 25,
-                  backgroundColor:
-                    selectedPlan === 'Básico' ? '#017CFE' : 'white',
-                  borderRadius: 20,
-                  marginHorizontal: 5,
-                }}>
-                <Text
-                  style={{
-                    color: selectedPlan === 'Básico' ? '#FFF' : '#000',
-                    fontWeight: 'bold',
-                    fontSize: fontSizeLarge,
-                  }}>
-                  Básico
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setSelectedPlan1('Pro')}
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 25,
-                  backgroundColor: selectedPlan === 'Pro' ? '#017CFE' : 'white',
-                  borderRadius: 20,
-                  marginHorizontal: 5,
-                }}>
-                <Text
-                  style={{
-                    color: selectedPlan === 'Pro' ? '#FFF' : '#000',
-                    fontWeight: 'bold',
-                    fontSize: fontSizeLarge,
-                  }}>
-                  Pro
-                </Text>
-              </TouchableOpacity>
-            </View>
+                            <View style={{ flex: 1, alignItems: 'center', paddingTop: 45 * scaleFactor, transform: [{ scale: scaleFactor }] }}>
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        fontWeight: 'bold',
+                                        color: textColor,
+                                        marginTop: 20 * scaleFactor,
+                                        textAlign: 'center',
+                                        transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    ¿Cuál prefieres?
+                                </Text>
+                            </View>
 
-            {/* Features Section */}
-            <View style={{ marginBottom: 50 ,marginTop: 50 }}>
-              {selectedPlanDetails.features.map((feature, index) => (
-                <Text
-                  key={index}
-                  style={{
-                    fontSize: fontSizeLarge,
-                    color: 'white',
-                    marginBottom: 12,
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: fontSizeLarge,
-                      color: '#FEBA01',
-                      fontWeight: 'bold',
-                    }}>
-                    ✓
-                  </Text>{' '}
-                  {feature}
-                </Text>
-              ))}
-            </View>
+                            {/* Optional animated image FIRST */}
+                            {makeUserWant && (
+                                <Animated.View
+                                    style={{
+                                        opacity: popAnim,
+                                        transform: [{ scale: popAnim }],
+                                        position: 'absolute',
+                                        marginTop: 20 * scaleFactor,
+                                        right: 0,
+                                    }}>
+                                    <Image
+                                        source={require('./assets/images/capiandchat.png')}
+                                        style={{
+                                            width: 350 * scaleFactor, height: 350 * scaleFactor, transform: [{ scale: scaleFactor }]
+                                        }}
+                                    />
+                                </Animated.View>
+                            )}
 
-            {/* Billing Cycle Toggle */}
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              {/* Mensual and Anual Options */}
-              {['Mensual', 'Anual'].map((billingCycle) => {
-                const isSelected = selectedBillingCycle === billingCycle;
-                return (
-                  <TouchableOpacity
-                    key={billingCycle}
-                    onPress={() => setSelectedBillingCycle(billingCycle)}
-                    style={{
-                      flex: 1,
-                      borderWidth: 1,
-                      borderColor: 'white',
-                      padding: 1,
-                      borderRadius: 20,
-                      marginHorizontal: 5,
-                      alignItems: 'center',
-                      backgroundColor: isSelected ? 'white' : 'transparent',
-                      height: 110,
-                      marginTop: 5,
+                            {/* Cancel Button AFTER the image */}
+                            <TouchableOpacity
+                                onPress={() => {
+                                    Alert.alert(
+                                        'Cancelar tu plan de suscripción',
+                                        "Puedes cancelar la prueba gratuita antes de que terminen los 7 días.",
+                                        [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+                                    );
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    right: 20 * scaleFactor,
+                                    top: 75 * scaleFactor,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    transform: [{ scale: scaleFactor }]
+                                }}
+                            >
+                                <Image
+                                    source={require('./assets/images/whiteex.png')}
+                                    style={{
+                                        width: 15,
+                                        height: 15,
+                                        resizeMode: 'contain',
+                                        marginRight: 5 * scaleFactor,
+                                        transform: [{ scale: scaleFactor }]
+                                    }}
+                                />
+                                <Text style={{
+                                    color: 'white', fontSize: 16, transform: [{ scale: scaleFactor }]
+                                }}>Cancelar</Text>
+                            </TouchableOpacity>
+                            {!testerUsed && (
+                                <TouchableOpacity
+                                    onPress={handleTesterButtonPress}
+                                    style={{
+                                        position: 'absolute',
+                                        left: 20 * scaleFactor,
+                                        top: 75 * scaleFactor,
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        transform: [{ scale: scaleFactor }]
+                                    }}
+                                >
+                                    <Text style={{
+                                        color: 'white', fontSize: 16, transform: [{ scale: scaleFactor }]
+                                    }}>Testing</Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
 
-                    }}>
-                    {/* Small Box */}
-                    <View
-                      style={{
-                        backgroundColor: isSelected ? '#FEBA01' : 'white',
-                        paddingVertical: 5,
-                        paddingHorizontal: 8,
-                        borderRadius: 5,
-                        position: 'absolute',
-                        top: -10,
-                        alignSelf: 'center',
-                      }}>
-                      <Text style={{ color: 'black', fontSize: fontSizeSmall }}>
-                        {smallBoxTexts[selectedPlan][billingCycle]}
-                      </Text>
-                    </View>
+                        {/* Bottom Section */}
+                        <View
+                            style={{
+                                flex: 1.75,
+                                backgroundColor: '#017CFE',
+                                padding: 20 * scaleFactor,
+                                justifyContent: 'center',
+                                position: 'relative'
+                            }}>
+                            {/* Plan Toggle */}
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    top: -30 * scaleFactor,
+                                    alignSelf: 'center',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: 'white',
+                                    borderRadius: 25 * scaleFactor,
+                                    paddingVertical: 10 * scaleFactor,
+                                    paddingHorizontal: 10 * scaleFactor,
+                                    zIndex: 1,
+                                    transform: [{ scale: scaleFactor }]
+                                }}>
+                                <TouchableOpacity
+                                    onPress={() => setSelectedPlan1('Básico')}
+                                    style={{
+                                        paddingVertical: 10 * scaleFactor,
+                                        paddingHorizontal: 25 * scaleFactor,
+                                        backgroundColor:
+                                            selectedPlan === 'Básico' ? '#017CFE' : 'white',
+                                        borderRadius: 20 * scaleFactor,
+                                        marginHorizontal: 5 * scaleFactor,
+                                        transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: selectedPlan === 'Básico' ? '#FFF' : '#000',
+                                            fontWeight: 'bold',
+                                            fontSize: fontSizeLarge,
+                                            transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        Básico
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => setSelectedPlan1('Pro')}
+                                    style={{
+                                        paddingVertical: 10 * scaleFactor,
+                                        paddingHorizontal: 25 * scaleFactor,
+                                        backgroundColor: selectedPlan === 'Pro' ? '#017CFE' : 'white',
+                                        borderRadius: 20 * scaleFactor,
+                                        marginHorizontal: 5 * scaleFactor,
+                                        transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: selectedPlan === 'Pro' ? '#FFF' : '#000',
+                                            fontWeight: 'bold',
+                                            fontSize: fontSizeLarge,
+                                            transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        Pro
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
 
-                    {/* Price */}
-                    <Text
-                      style={{
-                        fontSize: fontSizeHuge,
-                        fontWeight: 'bold',
-                        color: isSelected ? 'black' : 'white',
-                        marginTop: 20,
-                        padding: 5,
+                            {/* Features Section */}
+                            <View style={{ marginBottom: 25 * scaleFactor, marginTop: 50 * scaleFactor, transform: [{ scale: scaleFactor }] }}>
+                                {selectedPlanDetails.features.map((feature, index) => (
+                                    <Text
+                                        key={index}
+                                        style={{
+                                            fontSize: fontSizeLarge,
+                                            color: 'white',
+                                            marginBottom: 12 * scaleFactor,
+                                            transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        <Text
+                                            style={{
+                                                fontSize: fontSizeLarge,
+                                                color: '#FEBA01',
+                                                fontWeight: 'bold',
+                                                transform: [{ scale: scaleFactor }]
+                                            }}>
+                                            ✓
+                                        </Text>{' '}
+                                        {feature}
+                                    </Text>
+                                ))}
+                            </View>
 
-                      }}>
-                      {selectedPlanDetails[billingCycle].price}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: fontSizeLarge,
-                        color: isSelected ? 'black' : 'white',
-                        padding: 5,
+                            {/* Billing Cycle Toggle */}
+                            <View
+                                style={{
+                                    flexDirection: 'row', justifyContent: 'space-between', transform: [{ scale: scaleFactor }]
+                                }}>
+                                {/* Mensual and Anual Options */}
+                                {['Mensual', 'Anual'].map((billingCycle) => {
+                                    const isSelected = selectedBillingCycle === billingCycle;
+                                    return (
+                                        <TouchableOpacity
+                                            key={billingCycle}
+                                            onPress={() => setSelectedBillingCycle(billingCycle)}
+                                            style={{
+                                                flex: 1,
+                                                borderWidth: 1,
+                                                borderColor: 'white',
+                                                padding: 1 * scaleFactor,
+                                                borderRadius: 20 * scaleFactor,
+                                                marginHorizontal: 5 * scaleFactor,
+                                                alignItems: 'center',
+                                                backgroundColor: isSelected ? 'white' : 'transparent',
+                                                height: 110 * scaleFactor,
+                                                marginTop: 5 * scaleFactor,
+                                            }}>
+                                            {/* Small Box */}
+                                            <View
+                                                style={{
+                                                    backgroundColor: isSelected ? '#FEBA01' : 'white',
+                                                    paddingVertical: 5 * scaleFactor,
+                                                    paddingHorizontal: 8 * scaleFactor,
+                                                    borderRadius: 5 * scaleFactor,
+                                                    position: 'absolute',
+                                                    top: -10 * scaleFactor,
+                                                    alignSelf: 'center',
+                                                    transform: [{ scale: scaleFactor }]
+                                                }}>
+                                                <Text style={{
+                                                    color: 'black', fontSize: fontSizeSmall, transform: [{ scale: scaleFactor }]
+                                                }}>
+                                                    {smallBoxTexts[selectedPlan][billingCycle]}
+                                                </Text>
+                                            </View>
 
-                      }}>
-                      {selectedPlanDetails[billingCycle].cycle}
-                    </Text>
-                    {/* Checkmark Icon */}
-                    {isSelected && (
-                      <View
-                        style={{
-                          position: 'absolute',
-                          top: -10,
-                          right: -5,
-                          backgroundColor: '#FEBA01',
-                          width: 20,
-                          height: 20,
-                          borderRadius: 10,
-                          padding: 5,
-                          justifyContent: 'center',
+                                            {/* Price */}
+                                            <Text
+                                                style={{
+                                                    fontSize: fontSizeHuge,
+                                                    fontWeight: 'bold',
+                                                    color: isSelected ? 'black' : 'white',
+                                                    marginTop: 20 * scaleFactor,
+                                                    padding: 5 * scaleFactor,
+                                                    transform: [{ scale: scaleFactor }]
+                                                }}>
+                                                {selectedPlanDetails[billingCycle].price}
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    fontSize: fontSizeLarge,
+                                                    color: isSelected ? 'black' : 'white',
+                                                    padding: 5 * scaleFactor,
+                                                    transform: [{ scale: scaleFactor }]
+                                                }}>
+                                                {selectedPlanDetails[billingCycle].cycle}
+                                            </Text>
+                                            {/* Checkmark Icon */}
+                                            {isSelected && (
+                                                <View
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: -10 * scaleFactor,
+                                                        right: -5 * scaleFactor,
+                                                        backgroundColor: '#FEBA01',
+                                                        width: 20 * scaleFactor,
+                                                        height: 20 * scaleFactor,
+                                                        borderRadius: 10 * scaleFactor,
+                                                        padding: 5 * scaleFactor,
+                                                        justifyContent: 'center',
+                                                        transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                    <Text
+                                                        style={{
+                                                            color: 'black',
+                                                            fontSize: 12,
+                                                            fontWeight: 'bold',
+                                                            textAlign: 'center',
+                                                            transform: [{ scale: scaleFactor }]
+                                                        }}>
+                                                        ✓
+                                                    </Text>
+                                                </View>
+                                            )}
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
 
-                        }}>
-                        <Text
-                          style={{
-                            color: 'black',
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                          }}>
-                          ✓
-                        </Text>
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            {/* Seleccionar Button */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FFB901',
-                paddingVertical: 15,
-                borderRadius: 40,
-                marginTop: 20,
-                alignItems: 'center',
-                alignSelf: 'center',
-                width: '100%',
-              }}
-             onPress={() => {
+                            {/* Seleccionar Button */}
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#FFB901',
+                                    paddingVertical: 15 * scaleFactor,
+                                    borderRadius: 40 * scaleFactor,
+                                    marginTop: 20 * scaleFactor,
+                                    alignItems: 'center',
+                                    alignSelf: 'center',
+                                    width: '100%', transform: [{ scale: scaleFactor }]
+                                }}
+                                  onPress={() => {
     if (selectedBillingCycle) {
       setCurrentPlan(selectedPlan);
       setCurrentBillingCycle(selectedBillingCycle);
@@ -3150,321 +3155,345 @@ const handleTesterButtonPress = async () => {
       Alert.alert('Por favor, selecciona un ciclo de facturación');
     }
   }}>
+                                <Text
+                                    style={{
+                                        color: 'black',
+                                        fontSize: fontSizeLarge,
+                                        fontWeight: 'bold', transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    {isTrialActive ? 'Suscríbete: 7 días gratis >' : 'Suscríbete >'}
+                                </Text>
+                            </TouchableOpacity>
 
-              <Text
-                style={{
-                  color: 'black',
-                  fontSize: fontSizeLarge,
-                  fontWeight: 'bold',
-                }}>
-                {isTrialActive ? 'Suscríbete: 7 días gratis >' : 'Suscríbete >'}
-              </Text>
-            </TouchableOpacity>
+                            {/* Free Trial Section */}
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    paddingVertical: 10 * scaleFactor,
+                                    borderRadius: 40 * scaleFactor,
+                                    marginTop: 15 * scaleFactor,
+                                    alignItems: 'center',
+                                    alignSelf: 'center',
+                                    width: '100%',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    paddingHorizontal: 10 * scaleFactor,
+                                    transform: [{ scale: scaleFactor }]
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 14,
+                                        color: 'black',
+                                        fontWeight: 'bold',
+                                        textAlign: 'center',
+                                        marginLeft: 25 * scaleFactor,
+                                        transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    ¿No sabes? Activa prueba gratis
+                                </Text>
+                                <Switch
+                                    value={isTrialActive}
+                                    onValueChange={(value) => {
+                                        setIsTrialActive(value);
+                                        if (value) {
+                                            Alert.alert(
+                                                'Activa prueba gratis',
+                                                'Puedes cancelar la prueba gratuita antes de que terminen los 7 días. Si no la cancelas, tu suscripción se renovará automáticamente en el plan mensual o anual que has elegido.',
+                                                [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+                                            );
+                                        }
+                                    }}
+                                    thumbColor={isTrialActive ? '#FFF' : '#FFF'}
+                                    trackColor={{ false: '#767577', true: '#017CFE' }}
+                                />
+                            </View>
+                        </View>
+                    </View >
+                </View >
+            );
+        } else {       // PAGE 4000 LAYOUT (CHANGE SUBSCRIPTION) 
 
+            return (
+                <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1.25 }}>
+                        {/* Activity Indicator Overlay */}
+                        {isSubscribing && (
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                    zIndex: 1000,
+                                }}
+                            >
+                                <ActivityIndicator size="large" color="#ffffff" />
+                                <Text style={{
+                                    color: 'white', marginTop: 10 * scaleFactor, transform: [{ scale: scaleFactor }]
+                                }}>
+                                    Procesando tu suscripción...
+                                </Text>
+                            </View>
+                        )}
 
+                        {/* Top Section */}
+                        <View style={{ flex: 1, backgroundColor: '#FEBA01', paddingTop: 55 * scaleFactor, }}>
+                            {/* Container for Logo and Cancel Button */}
+                            <View style={{ position: 'relative', alignItems: 'center', transform: [{ scale: scaleFactor }] }}>
+                                {/* Logo */}
+                                <Image
+                                    source={require('./assets/images/dadwblue.png')}
+                                    style={{
+                                        width: 200,
+                                        height: 56,
+                                        resizeMode: 'contain',
+                                        transform: [{ scale: scaleFactor }]
+                                    }}
+                                />
 
-            {/* Free Trial Section */}
-            <View
-              style={{
-                backgroundColor: 'white',
-                paddingVertical: 10,
-                borderRadius: 40,
-                marginTop: 15,
-                alignItems: 'center',
-                alignSelf: 'center',
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: 'black',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  marginLeft: 25,
-                }}>
-                ¿No sabes? Activa prueba gratis
-              </Text>
-                 <Switch
-                                value={isTrialActive}
-                                onValueChange={(value) => setIsTrialActive(value)}
-                                thumbColor={isTrialActive ? '#FFF' : '#FFF'}
-                                trackColor={{ false: '#767577', true: '#017CFE' }}
-                            />
-            </View>
-          </View>
-        </View >
-      );
-    } else {       // PAGE 4000 LAYOUT (CHANGE SUBSCRIPTION)       
-  return (         
-    <View style={{ flex: 1.25 }}>           
-      {/* Activity Indicator Overlay */}           
-      {isSubscribing && (             
-        <View                
-          style={{                  
-            position: 'absolute',                  
-            top: 0,                  
-            left: 0,                  
-            right: 0,                  
-            bottom: 0,                  
-            justifyContent: 'center',                  
-            alignItems: 'center',                  
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',                  
-            zIndex: 1000                
-          }}             
-        >               
-          <ActivityIndicator size="large" color="#ffffff" />               
-          <Text style={{ color: 'white', marginTop: 10 }}>                 
-            Procesando tu suscripción...               
-          </Text>             
-        </View>           
-      )}            
-      
-      {/* Top Section */}           
-      <View style={{ flex: 1, backgroundColor: '#FEBA01', paddingTop: 55 }}>             
-        {/* Container for Logo and Cancel Button */}             
-        <View style={{ position: 'relative', alignItems: 'center' }}>               
-          {/* Logo */}               
-          <Image                 
-            source={require('./assets/images/dadwblue.png')}                 
-            style={{                   
-              width: 200,                   
-              height: 56,                   
-              resizeMode: 'contain',                 
-            }}               
-          />               
-          
-          {/* Cancel Button */}
-          <TouchableOpacity
-            onPress={() => {
-              Alert.alert(
-                'Cancelar tu plan de suscripción',
-                "Ve a la configuración de suscripciones de tu dispositivo para cancelar el plan de suscripción!",
-                [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
-              );
-            }}
-            style={{
-              position: 'absolute',
-              right: 20,
-              top: 20,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <Image
-              source={require('./assets/images/whiteex.png')}
-              style={{
-                width: 15,
-                height: 15,
-                resizeMode: 'contain',
-                marginRight: 5,
-              }}
-            />
-            <Text style={{ color: 'white', fontSize: 9 }}>Cancelar</Text>
-          </TouchableOpacity>
-        </View>             
-        
-        <View style={{ alignItems: 'center', paddingTop: 45 }}>               
-          <Text                 
-            style={{                   
-              fontSize: 24,                   
-              fontWeight: 'bold',                   
-              color: 'black',                   
-              marginTop: 10,                   
-              textAlign: 'center',                 
-            }}>                 
-            ¿Cambia tu {'\n'} plan actual?               
-          </Text>             
-        </View>           
-      </View>            
-      
-      {/* Bottom Section */}
-            <View
-            style={{
-              flex: 1.75,
-              backgroundColor: '#017CFE',
-              padding: 20,
-              justifyContent: 'center',
-               position: 'relative'
-            }}>
-            {/* Plan Toggle */}
-            <View
-    style={{
-      position: 'absolute',
-      top: -30,  // Adjust this value to fine-tune the vertical position
-      alignSelf: 'center',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      borderRadius: 25,
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      zIndex: 1,
-    }}>
-              <TouchableOpacity
-                onPress={() => setSelectedPlan1('Básico')}
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 25,
-                  backgroundColor:
-                    selectedPlan === 'Básico' ? '#017CFE' : 'white',
-                  borderRadius: 20,
-                  marginHorizontal: 5,
-                }}>
-                <Text
-                  style={{
-                    color: selectedPlan === 'Básico' ? '#FFF' : '#000',
-                    fontWeight: 'bold',
-                    fontSize: fontSizeLarge,
-                  }}>
-                  Básico
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setSelectedPlan1('Pro')}
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 25,
-                  backgroundColor: selectedPlan === 'Pro' ? '#017CFE' : 'white',
-                  borderRadius: 20,
-                  marginHorizontal: 5,
-                }}>
-                <Text
-                  style={{
-                    color: selectedPlan === 'Pro' ? '#FFF' : '#000',
-                    fontWeight: 'bold',
-                    fontSize: fontSizeLarge,
-                  }}>
-                  Pro
-                </Text>
-              </TouchableOpacity>
-            </View>
-            {/* Features Section */}
-            <View style={{ marginBottom: 50 ,marginTop: 50}}>
-              {selectedPlanDetails.features.map((feature, index) => (
-                <Text
-                  key={index}
-                  style={{
-                    fontSize: fontSizeLarge,
-                    color: 'white',
-                    marginBottom: 12,
-                  }}>
-                  <Text style={{ fontSize: fontSizeLarge, color: '#FEBA01' }}>
-                    ✓
-                  </Text>{' '}
-                  {feature}
-                </Text>
-              ))}
-            </View>
+                                {/* Cancel Button */}
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        Alert.alert(
+                                            'Cancelar tu plan de suscripción',
+                                            "Ve a la configuración de suscripciones de tu dispositivo para cancelar el plan de suscripción!",
+                                            [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+                                        );
+                                    }}
+                                    style={{
+                                        position: 'absolute',
+                                        right: 20 * scaleFactor,
+                                        top: 20 * scaleFactor,
+                                        flexDirection: 'row',
+                                        alignItems: 'center', transform: [{ scale: scaleFactor }]
+                                    }}
+                                >
+                                    <Image
+                                        source={require('./assets/images/whiteex.png')}
+                                        style={{
+                                            width: 15,
+                                            height: 15,
+                                            resizeMode: 'contain',
+                                            marginRight: 5 * scaleFactor,
+                                            transform: [{ scale: scaleFactor }]
+                                        }}
+                                    />
+                                    <Text style={{
+                                        color: 'white', fontSize: 9, transform: [{ scale: scaleFactor }]
+                                    }}>Cancelar</Text>
+                                </TouchableOpacity>
+                            </View>
 
-            {/* Billing Cycle Options */}
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              {['Mensual', 'Anual'].map((billingCycle) => {
-                const isCurrentPlan =
-                  selectedPlan === currentPlan &&
-                  billingCycle === currentBillingCycle;
-                const isSelected = selectedBillingCycle === billingCycle;
+                            <View style={{ alignItems: 'center', paddingTop: 45 * scaleFactor, transform: [{ scale: scaleFactor }] }}>
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        fontWeight: 'bold',
+                                        color: 'black',
+                                        marginTop: 10 * scaleFactor,
+                                        textAlign: 'center', transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    ¿Cambia tu {'\n'} plan actual?
+                                </Text>
+                            </View>
+                        </View>
 
-                return (
-                  <TouchableOpacity
-                    key={billingCycle}
-                    onPress={() => setSelectedBillingCycle(billingCycle)}
-                    style={{
-                      flex: 1,
-                      borderWidth: 1,
-                      marginTop: 20,
-                      marginBottom: 20,
-                      borderColor: 'white',
-                      paddingVertical: 8,
-                      paddingHorizontal: 12,
-                      borderRadius: 20,
-                      marginHorizontal: 5,
-                      alignItems: 'center',
-                      backgroundColor: isSelected ? 'white' : 'transparent',
-                      position: 'relative',
-                      height: 125,
-                      justifyContent: 'center',
-                    }}>
-                    {/* Small Box for 'Your Plan' */}
-                    {isCurrentPlan && (
-                      <View
-                        style={{
-                          backgroundColor: isSelected ? '#FEBA01' : 'white',
-                          paddingVertical: 3,
-                          paddingHorizontal: 7,
-                          borderRadius: 5,
-                          position: 'absolute',
-                          top: -8,
-                          alignSelf: 'center',
-                        }}>
-                        <Text style={{ color: 'black', fontSize: fontSizeSmall }}>
-                          Your Plan
-                        </Text>
-                      </View>
-                    )}
+                        {/* Bottom Section */}
+                        <View
+                            style={{
+                                flex: 1.75,
+                                backgroundColor: '#017CFE',
+                                padding: 20 * scaleFactor,
+                                justifyContent: 'center',
+                                position: 'relative',
+                            }}>
+                            {/* Plan Toggle */}
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    top: -30 * scaleFactor,
+                                    alignSelf: 'center',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: 'white',
+                                    borderRadius: 25 * scaleFactor,
+                                    paddingVertical: 10 * scaleFactor,
+                                    paddingHorizontal: 10 * scaleFactor,
+                                    zIndex: 1, transform: [{ scale: scaleFactor }]
+                                }}>
+                                <TouchableOpacity
+                                    onPress={() => setSelectedPlan1('Básico')}
+                                    style={{
+                                        paddingVertical: 10 * scaleFactor,
+                                        paddingHorizontal: 25 * scaleFactor,
+                                        backgroundColor:
+                                            selectedPlan === 'Básico' ? '#017CFE' : 'white',
+                                        borderRadius: 20 * scaleFactor,
+                                        marginHorizontal: 5 * scaleFactor, transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: selectedPlan === 'Básico' ? '#FFF' : '#000',
+                                            fontWeight: 'bold',
+                                            fontSize: fontSizeLarge, transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        Básico
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => setSelectedPlan1('Pro')}
+                                    style={{
+                                        paddingVertical: 10 * scaleFactor,
+                                        paddingHorizontal: 25 * scaleFactor,
+                                        backgroundColor: selectedPlan === 'Pro' ? '#017CFE' : 'white',
+                                        borderRadius: 20 * scaleFactor,
+                                        marginHorizontal: 5 * scaleFactor, transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: selectedPlan === 'Pro' ? '#FFF' : '#000',
+                                            fontWeight: 'bold',
+                                            fontSize: fontSizeLarge,
+                                            transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        Pro
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            {/* Features Section */}
+                            <View style={{ marginBottom: 50 * scaleFactor, marginTop: 50 * scaleFactor, transform: [{ scale: scaleFactor }] }}>
+                                {selectedPlanDetails.features.map((feature, index) => (
+                                    <Text
+                                        key={index}
+                                        style={{
+                                            fontSize: fontSizeLarge,
+                                            color: 'white',
+                                            marginBottom: 12 * scaleFactor, transform: [{ scale: scaleFactor }]
+                                        }}>
+                                        <Text style={{
+                                            fontSize: fontSizeLarge, color: '#FEBA01', transform: [{ scale: scaleFactor }]
+                                        }}>
+                                            ✓
+                                        </Text>{' '}
+                                        {feature}
+                                    </Text>
+                                ))}
+                            </View>
 
-                    <View style={{ alignItems: 'center' }}>
-                      <Text
-                        style={{
-                          fontSize: fontSizeHuge,
-                          fontWeight: 'bold',
-                          color: isSelected ? 'black' : 'white',
-                        }}>
-                        {selectedPlanDetails[billingCycle].price}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: fontSizeLarge,
-                          color: isSelected ? 'black' : 'white',
-                        }}>
-                        {selectedPlanDetails[billingCycle].cycle}
-                      </Text>
-                    </View>
+                            {/* Billing Cycle Options */}
+                            <View
+                                style={{
+                                    flexDirection: 'row', justifyContent: 'space-between', transform: [{ scale: scaleFactor }]
+                                }}>
+                                {['Mensual', 'Anual'].map((billingCycle) => {
+                                    const isCurrentPlan =
+                                        selectedPlan === currentPlan &&
+                                        billingCycle === currentBillingCycle;
+                                    const isSelected = selectedBillingCycle === billingCycle;
 
-                    {isSelected && (
-                      <View
-                        style={{
-                          position: 'absolute',
-                          top: -10,
-                          right: -5,
-                          backgroundColor: '#FEBA01',
-                          width: 20,
-                          height: 20,
-                          borderRadius: 10,
-                          justifyContent: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            color: 'black',
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                          }}>
-                          ✓
-                        </Text>
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+                                    return (
+                                        <TouchableOpacity
+                                            key={billingCycle}
+                                            onPress={() => setSelectedBillingCycle(billingCycle)}
+                                            style={{
+                                                flex: 1,
+                                                borderWidth: 1,
+                                                marginTop: 20 * scaleFactor,
+                                                marginBottom: 20 * scaleFactor,
+                                                borderColor: 'white',
+                                                paddingVertical: 8 * scaleFactor,
+                                                paddingHorizontal: 12 * scaleFactor,
+                                                borderRadius: 20 * scaleFactor,
+                                                marginHorizontal: 5 * scaleFactor,
+                                                alignItems: 'center',
+                                                backgroundColor: isSelected ? 'white' : 'transparent',
+                                                position: 'relative',
+                                                height: 125 * scaleFactor,
+                                                justifyContent: 'center', transform: [{ scale: scaleFactor }]
+                                            }}>
+                                            {/* Small Box for 'Your Plan' */}
+                                            {isCurrentPlan && (
+                                                <View
+                                                    style={{
+                                                        backgroundColor: isSelected ? '#FEBA01' : 'white',
+                                                        paddingVertical: 3 * scaleFactor,
+                                                        paddingHorizontal: 7 * scaleFactor,
+                                                        borderRadius: 5 * scaleFactor,
+                                                        position: 'absolute',
+                                                        top: -8 * scaleFactor,
+                                                        alignSelf: 'center', transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                    <Text style={{
+                                                        color: 'black', fontSize: fontSizeSmall, transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                        Your Plan
+                                                    </Text>
+                                                </View>
+                                            )}
 
-          <TouchableOpacity
-  style={{
-    backgroundColor: '#FEBA01',
-    paddingVertical: 12,
-    borderRadius: 40,
-    marginTop: 25,
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: '100%',
-  }}
- onPress={() => {
+                                            <View style={{ alignItems: 'center', transform: [{ scale: scaleFactor }] }}>
+                                                <Text
+                                                    style={{
+                                                        fontSize: fontSizeHuge,
+                                                        fontWeight: 'bold',
+                                                        color: isSelected ? 'black' : 'white', transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                    {selectedPlanDetails[billingCycle].price}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        fontSize: fontSizeLarge,
+                                                        color: isSelected ? 'black' : 'white', transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                    {selectedPlanDetails[billingCycle].cycle}
+                                                </Text>
+                                            </View>
+
+                                            {isSelected && (
+                                                <View
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: -10 * scaleFactor,
+                                                        right: -5 * scaleFactor,
+                                                        backgroundColor: '#FEBA01',
+                                                        width: 20 * scaleFactor,
+                                                        height: 20 * scaleFactor,
+                                                        borderRadius: 10 * scaleFactor,
+                                                        justifyContent: 'center', transform: [{ scale: scaleFactor }]
+                                                    }}>
+                                                    <Text
+                                                        style={{
+                                                            color: 'black',
+                                                            fontSize: 12,
+                                                            fontWeight: 'bold',
+                                                            textAlign: 'center', transform: [{ scale: scaleFactor }]
+                                                        }}>
+                                                        ✓
+                                                    </Text>
+                                                </View>
+                                            )}
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
+
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#FEBA01',
+                                    paddingVertical: 12 * scaleFactor,
+                                    borderRadius: 40 * scaleFactor,
+                                    marginTop: 25 * scaleFactor,
+                                    alignItems: 'center',
+                                    alignSelf: 'center',
+                                    width: '100%', transform: [{ scale: scaleFactor }]
+                                }}
+                             onPress={() => {
    if (isPlanChanged) {
      setIsSubscribing(true);
      inAppBuySubscription(selectedPlan)
@@ -3494,23 +3523,25 @@ const handleTesterButtonPress = async () => {
      setPage(9);
    }
  }}>
-  <Text
-    style={{
-      color: 'black',
-      fontSize: fontSizeLarge,
-      fontWeight: 'bold',
-    }}>
-    {buttonText}
-  </Text>
-</TouchableOpacity>
-          </View>
-        </View>
-      );
+                                <Text
+                                    style={{
+                                        color: 'black',
+                                        fontSize: fontSizeLarge,
+                                        fontWeight: 'bold', transform: [{ scale: scaleFactor }]
+                                    }}>
+                                    {buttonText}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            );
+        }
+
     }
-  }
 
 
-  else if (page === 4002) {
+    else if (page === 4002) {
         const selectedPlanDetails = planDetails[selectedPlan];
 
         const dynamicMarginTop = -0.1 * screenHeight;
@@ -3780,7 +3811,7 @@ const handleTesterButtonPress = async () => {
                         })}
                     </View>
 
-                    {/* Seleccionar Button */}
+                    {/* Seleccionar Butto */}
                     <TouchableOpacity
                         style={{
                             backgroundColor: '#FFB901',
@@ -3791,31 +3822,31 @@ const handleTesterButtonPress = async () => {
                             alignSelf: 'center',
                             width: '100%',
                         }}
-                   onPress={() => {
-    if (selectedBillingCycle) {
-      setCurrentPlan(selectedPlan);
-              setIsSubscribing(true);
+                        onPress={() => {
+                            if (selectedBillingCycle) {
+                                setCurrentPlan(selectedPlan);
+                                setIsSubscribing(true);
 
-      setCurrentBillingCycle(selectedBillingCycle);
-      
-      inAppBuySubscription(selectedPlan)
-        .then(() => {
-          if (currentPlan === 'Pro') {
-            setIsTimeoutActive(false);
-            setChatCount(0);
-            setTrialChatCount(0);
-            AsyncStorage.setItem('isTimeoutActive', JSON.stringify(false));
-            AsyncStorage.setItem('chatCount', JSON.stringify(0));
-            AsyncStorage.setItem('trialChatCount', JSON.stringify(0));
-          }
-        })
-        .catch((error) => {
-          console.log('Purchase flow failed:', error);
-        });
-    } else {
-      Alert.alert('Por favor, selecciona un ciclo de facturación');
-    }
-  }}>
+                                setCurrentBillingCycle(selectedBillingCycle);
+
+                                inAppBuySubscription(selectedPlan)
+                                    .then(() => {
+                                        if (currentPlan === 'Pro') {
+                                            setIsTimeoutActive(false);
+                                            setChatCount(0);
+                                            setTrialChatCount(0);
+                                            AsyncStorage.setItem('isTimeoutActive', JSON.stringify(false));
+                                            AsyncStorage.setItem('chatCount', JSON.stringify(0));
+                                            AsyncStorage.setItem('trialChatCount', JSON.stringify(0));
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log('Purchase flow failed:', error);
+                                    });
+                            } else {
+                                Alert.alert('Por favor, selecciona un ciclo de facturación');
+                            }
+                        }}>
 
                         <Text
                             style={{
@@ -4312,39 +4343,93 @@ const handleTesterButtonPress = async () => {
                     <View>
                         <TouchableOpacity
                             onPress={() => {
-                                // Check if the timeout is active and handle it immediately
+                                console.log('TouchableOpacity pressed - Initial state:', {
+                                    isTimeoutActive,
+                                    displayCount,
+                                    displayLevel,
+                                    selectedOption,
+                                    currentCountPrincipiante,
+                                    currentCountIntermedio,
+                                    currentCountAvanzado
+                                });
+
+                                // Check if the timeout is active
                                 if (isTimeoutActive) {
+                                    console.log('Timeout is active, calling handleQuestionMarkClick');
                                     handleQuestionMarkClick();
-                                    console.log('Timeout is active, skipping further actions.');
-                                    return; // Skip the rest of the logic
+                                    console.log('Skipping further actions due to timeout');
+                                    return;
                                 }
+
+                                console.log('Timeout check passed, proceeding with count increment');
                                 let newCount = displayCount + 1;
+                                console.log('New count calculated:', newCount);
 
                                 if (newCount >= 60 && displayLevel < 3 && displayCount < 60) {
+                                    console.log('Entering level upgrade condition:', {
+                                        newCount,
+                                        displayLevel,
+                                        selectedOption
+                                    });
+
                                     if (selectedOption === 'Principiante') {
+                                        console.log('Upgrading from Principiante to Intermedio');
                                         setCurrentCountPrincipiante(newCount);
+                                        console.log('Set currentCountPrincipiante to:', newCount);
                                         setSelectedOption('Intermedio');
+                                        console.log('Selected option changed to Intermedio');
                                     } else if (selectedOption === 'Intermedio') {
+                                        console.log('Upgrading from Intermedio to Avanzado');
                                         setCurrentCountIntermedio(newCount);
+                                        console.log('Set currentCountIntermedio to:', newCount);
                                         setSelectedOption('Avanzado');
+                                        console.log('Selected option changed to Avanzado');
                                     } else if (selectedOption === 'Avanzado') {
+                                        console.log('Already at Avanzado, updating count');
                                         setCurrentCountAvanzado(newCount);
+                                        console.log('Set currentCountAvanzado to:', newCount);
                                     }
+
+                                    console.log('Incrementing current level from:', displayLevel);
                                     setCurrentLevel(displayLevel + 1);
                                 } else if (displayLevel === 3) {
+                                    console.log('At max level (3), updating Avanzado count');
                                     setCurrentCountAvanzado(newCount);
+                                    console.log('Set currentCountAvanzado to:', newCount);
                                 } else {
+                                    console.log('Regular count update for current level:', {
+                                        selectedOption,
+                                        newCount
+                                    });
+
                                     if (selectedOption === 'Principiante') {
+                                        console.log('Updating Principiante count');
                                         setCurrentCountPrincipiante(newCount);
+                                        console.log('Set currentCountPrincipiante to:', newCount);
                                     } else if (selectedOption === 'Intermedio') {
+                                        console.log('Updating Intermedio count');
                                         setCurrentCountIntermedio(newCount);
+                                        console.log('Set currentCountIntermedio to:', newCount);
                                     } else if (selectedOption === 'Avanzado') {
+                                        console.log('Updating Avanzado count');
                                         setCurrentCountAvanzado(newCount);
+                                        console.log('Set currentCountAvanzado to:', newCount);
                                     }
                                 }
 
-                                // Start a new chat
+                                console.log('Starting new chat...');
                                 handleStartNewChat();
+                                console.log('New chat started');
+
+                                // Log final state after all updates
+                                console.log('Final state after updates:', {
+                                    newCount,
+                                    displayLevel,
+                                    selectedOption,
+                                    currentCountPrincipiante,
+                                    currentCountIntermedio,
+                                    currentCountAvanzado
+                                });
                             }}
                             style={{
                                 alignSelf: 'center',
@@ -5046,6 +5131,11 @@ const handleTesterButtonPress = async () => {
             </View>
         );
     } else if (page === 820) {
+        const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+        const ratio = screenHeight / screenWidth;
+        const scaleFactor = ratio < 1.9 ? 0.9 : 1.0;
+        const scaleFactor2 = ratio < 1.9 ? 0.5 : 1.0;
+
         return (
             <View style={styles.container}>
                 <Modal
@@ -5109,8 +5199,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '2%',
                                         left: '34%',
-                                        width: 140,
-                                        height: 140,
+                                        width: 140 * scaleFactor,
+                                        height: 140 * scaleFactor,
                                     }}>
                                     <Image
                                         source={require('./assets/images/yellowbackground0.png')}
@@ -5126,8 +5216,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '27%',
                                         left: '34%',
-                                        width: 140,
-                                        height: 140,
+                                        width: 140 * scaleFactor,
+                                        height: 140 * scaleFactor,
                                     }}>
                                     <Image
                                         source={require('./assets/images/yellowbackground01.png')}
@@ -5143,8 +5233,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '52%',
                                         left: '34%',
-                                        width: 140,
-                                        height: 140,
+                                        width: 140 * scaleFactor,
+                                        height: 140 * scaleFactor,
                                     }}>
                                     <Image
                                         source={require('./assets/images/yellowbackground02.png')}
@@ -5161,8 +5251,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '31.5%',
                                         left: '12%',
-                                        width: 100,
-                                        height: 100,
+                                        width: 100 * scaleFactor,
+                                        height: 100 * scaleFactor,
                                         shadowColor: '#000',
                                         shadowOffset: { width: 0, height: 2 },
                                         shadowOpacity: 0.8,
@@ -5176,8 +5266,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '56.5%',
                                         left: '12%',
-                                        width: 100,
-                                        height: 100,
+                                        width: 100 * scaleFactor,
+                                        height: 100 * scaleFactor,
                                         shadowColor: '#000',
                                         shadowOffset: { width: 0, height: 2 },
                                         shadowOpacity: 0.8,
@@ -5191,8 +5281,8 @@ const handleTesterButtonPress = async () => {
                                         position: 'absolute',
                                         top: '6.5%',
                                         left: '12%',
-                                        width: 100,
-                                        height: 100,
+                                        width: 100 * scaleFactor,
+                                        height: 100 * scaleFactor,
                                         shadowColor: '#000',
                                         shadowOffset: { width: 0, height: 2 },
                                         shadowOpacity: 0.8,
@@ -5209,13 +5299,14 @@ const handleTesterButtonPress = async () => {
                                     alignSelf: 'center',
                                     backgroundColor: '#ffbb00',
                                     borderRadius: 20,
-                                    padding: 10,
-                                    width: 110,
+                                    padding: 10 * scaleFactor2,
+                                    width: 110 * scaleFactor,
                                     borderColor: 'black',
                                     borderWidth: 2,
                                 }}>
                                 <Text
                                     style={{
+
                                         color: 'black',
                                         textAlign: 'center',
                                         fontWeight: 'bold',
@@ -5790,6 +5881,9 @@ const handleTesterButtonPress = async () => {
             </View>
         );
     } else if (page === 9) {
+        const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+        const ratio = screenHeight / screenWidth;
+        const scaleFactor = ratio < 1.9 ? 0.6 : 1.0;
         return (
             <View style={{ flex: 1, backgroundColor: '#feba01', paddingTop: 120 }}>
                 <View style={{ flex: 1, marginTop: screenHeight <= 736 ? -70 : 0 }}>
@@ -5897,7 +5991,7 @@ const handleTesterButtonPress = async () => {
                                     fontWeight: 'bold',
                                     marginRight: 18,
                                 }}>
-                  >
+                    >
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -5976,7 +6070,7 @@ const handleTesterButtonPress = async () => {
                                     fontWeight: 'bold',
                                     marginRight: 18,
                                 }}>
-                  >
+                    >
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -6014,47 +6108,47 @@ const handleTesterButtonPress = async () => {
                                     fontWeight: 'bold',
                                     marginRight: 18,
                                 }}>
-                  >
+                    >
                             </Text>
                         </View>
                     </TouchableOpacity>
-                   <TouchableOpacity
-    onPress={() => Linking.openURL('https://www.aispeakapp.com/contacto')}>
-    <View
-        style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: 20,
-            marginLeft: -5,
-            marginTop: screenHeight <= 592 ? 2.5 : 20,
-            borderTopWidth: 1,
-            borderBottomWidth: 1,
-        }}>
-        <View
-            style={{
-                backgroundColor: 'white',
-                borderRadius: 50,
-                paddingHorizontal: 18,
-                paddingVertical: 8,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 4.65,
-            }}>
-            <Text style={{ fontSize: 18 }}>Contacta con nosotros</Text>
-        </View>
-        <Text
-            style={{
-                fontSize: 24,
-                color: 'white',
-                fontWeight: 'bold',
-                marginRight: 18,
-            }}>
-            >
-        </Text>
-    </View>
-</TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => Linking.openURL('https://www.aispeakapp.com/contacto')}>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: 20,
+                                marginLeft: -5,
+                                marginTop: screenHeight <= 592 ? 2.5 : 20,
+                                borderTopWidth: 1,
+                                borderBottomWidth: 1,
+                            }}>
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    borderRadius: 50,
+                                    paddingHorizontal: 18,
+                                    paddingVertical: 8,
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 4 },
+                                    shadowOpacity: 0.3,
+                                    shadowRadius: 4.65,
+                                }}>
+                                <Text style={{ fontSize: 18 }}>Contacta con nosotros</Text>
+                            </View>
+                            <Text
+                                style={{
+                                    fontSize: 24,
+                                    color: 'white',
+                                    fontWeight: 'bold',
+                                    marginRight: 18,
+                                }}>
+              >
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
 
 
                     {/* Combined View */}
@@ -6078,7 +6172,7 @@ const handleTesterButtonPress = async () => {
                                     'https://www.aispeakapp.com/trminos-y-condiciones'
                                 )
                             }>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>
+                            <Text style={{ fontSize: 12 * scaleFactor, textAlign: 'center' }}>
                                 Términos y{'\n'}condiciones
                             </Text>
                         </TouchableOpacity>
@@ -6119,7 +6213,7 @@ const handleTesterButtonPress = async () => {
                                     'https://www.aispeakapp.com/poltica-de-privacidad'
                                 )
                             }>
-                            <Text style={{ fontSize: 12, textAlign: 'center' }}>
+                            <Text style={{ fontSize: 12 * scaleFactor, textAlign: 'center' }}>
                                 Política de{'\n'}privacidad
                             </Text>
                         </TouchableOpacity>
@@ -7701,7 +7795,7 @@ class ChatScreen extends React.Component<{}, State> {
     }
     handleButtonClick = () => {
         // Log the current value of isTimeoutActive and thirdchat
-        console.log('isTimeoutActive:', this.props.isTimeoutActive);
+        console.log('isTimeoutActive mate:', this.props.isTimeoutActive);
         console.log('thirdchat before setState:', this.props.thirdchat);
 
         // Update thirdchat state if isTimeoutActive is true
@@ -8565,6 +8659,8 @@ class ChatScreen extends React.Component<{}, State> {
                             console.error('Error:', error);
                         }
                     }
+
+
 
                     // Add messages to chat history
                     this.props.setChatHistory((prevChatHistory) => {

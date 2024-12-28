@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "f0bafb34-ac50-4030-acca-86d3851ebc63"
+      }
+    },
+    "android": {
+      "package": "com.sdcassino200.Aispeak",
+      "versionCode": 7,
+      "permissions": [
+        "RECORD_AUDIO"
+      ]
+    },
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#feba01"
+    },
+    "ios": {
+      "bundleIdentifier": "com.sdcassino11.aispeakapplication",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Permite que esta aplicación acceda a tu micrófono para grabar audio.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "supportsTablet": false
+    },
+    "icon": "./assets/icon.png",
+    "permissions": [
+      "AUDIO_RECORDING"
+    ],
+    "microphonePermission": "Permite que esta aplicación acceda a tu micrófono para grabar audio."
+  }
+}
