@@ -2790,11 +2790,11 @@ const inAppBuySubscription = async (selectedPlan) => {
         const smallBoxTexts = {
             Básico: {
                 Mensual: 'Solo 3 cafés',
-                Anual: 'Ahorra £26',
+                Anual: 'Ahorra €26',
             },
             Pro: {
                 Mensual: 'Solo 5 cafés',
-                Anual: 'Ahorra £26',
+                Anual: 'Ahorra €49',
             },
         };
 
@@ -3549,11 +3549,11 @@ const inAppBuySubscription = async (selectedPlan) => {
         const smallBoxTexts = {
             Básico: {
                 Mensual: 'Solo 3 cafés',
-                Anual: 'Ahorra £26',
+                Anual: 'Ahorra €26',
             },
             Pro: {
                 Mensual: 'Solo 5 cafés',
-                Anual: 'Ahorra £26',
+                Anual: 'Ahorra €49',
             },
         };
 
